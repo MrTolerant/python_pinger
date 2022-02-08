@@ -6,14 +6,14 @@ import sys
 
 def login():
     start = time.time()
-    resp = requests.get(sys.argv[0])
+    resp = requests.get(sys.argv[1])
     end = time.time()
 
     if resp.status_code != 200:
         logging.error(
-            f"Failed: {resp.status_code}, {resp.content}, {end - start} seconds")
+            f"Failed: {resp.status_code}, {resp.content}, {round((end - start) * 1000)} ms")
     if resp.status_code == 200:
-        logging.info(f"Works!, {end - start} seconds")
+        logging.info(f"Works!, {round((end - start) * 1000)} ms")
 
 
 def main():
