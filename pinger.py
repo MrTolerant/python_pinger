@@ -5,18 +5,24 @@ import sys
 
 
 def login():
-    start = time.time()
-    resp = requests.get(sys.argv[1])
-    end = time.time()
-    respTime = round((end - start) * 1000)
-    if resp.status_code != 200:
-        logging.error(
-            f"Failed: {resp.status_code}, {resp.content}, {respTime} ms")
-    if (resp.status_code == 200) and (respTime < 150):
-        logging.info(f"Works!, {respTime} ms")
+    try:
+        start = time.time()
+        resp = requests.get(sys.argv[1])
+        end = time.time()
 
-    if (resp.status_code == 200) and (respTime >= 150):
-        logging.warning(f"Works..., {respTime} ms")
+        respTime = round((end - start) * 1000)
+        if resp.status_code != 200:
+            logging.error(
+                f"Failed: {resp.status_code}, {resp.content}, {respTime} ms")
+        if (resp.status_code == 200) and (respTime < 150):
+            logging.info(f"Ok, {respTime} ms")
+
+        if (resp.status_code == 200) and (respTime >= 150):
+            logging.warning(f"Bad, {respTime} ms")
+
+    except Exception as exception:
+        logging.error(
+            f"Exception: {exception.__class__.__name__}")
 
 
 def main():
