@@ -8,12 +8,15 @@ def login():
     start = time.time()
     resp = requests.get(sys.argv[1])
     end = time.time()
-
+    respTime = round((end - start) * 1000)
     if resp.status_code != 200:
         logging.error(
-            f"Failed: {resp.status_code}, {resp.content}, {round((end - start) * 1000)} ms")
-    if resp.status_code == 200:
-        logging.info(f"Works!, {round((end - start) * 1000)} ms")
+            f"Failed: {resp.status_code}, {resp.content}, {respTime} ms")
+    if (resp.status_code == 200) and (respTime < 150):
+        logging.info(f"Works!, {respTime} ms")
+
+    if (resp.status_code == 200) and (respTime >= 150):
+        logging.warning(f"Works..., {respTime} ms")
 
 
 def main():
